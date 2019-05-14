@@ -1,76 +1,27 @@
 package aptidao;
+import java.util.Random
 
-public class aptidao{
-	
-	//criando variáveis de informações do problema
-	private int n_req; //número de requisitos do problema
-	private int n_cli; // número de clientes
-	private int n_release //número de releases
-	private double orcamento; //definindo orçamento
-	
+public class Solucao_def{
+
 	//criando as variáveis auxiliares do problema. É possível criar isso globalmente e chamar apenas uma vez? VER ISSO MAIS TARDE
-	public int i,j; //necessários no laço de repetição
-	public int score; //socre do indivíduo
+	public i,j; //necessários no laço de repetição
+	public int cromossomo_tam; //tamanho do cromossomo
+	public double[] fitness;
+	public int cromossomo;
+	public int score = 0;
+	int fiq;
 	public int alocado; //variável que vai verificar se o requisito foi alocado na release
 	public int verificador; //vai verificar se o requisito foi alocado na release
-	  
-	//inicializa as variáveis  
-    public int[] importancia = new int[n_req];
-    public int[] relev_cli = new int[n_cli];//relevância do cliente.
-    public int[][] valor_relev = new int[n_cli][n_req];//determina a importância que cliente estabelece para o requisito
-    public int[] risco = new int[n_req];
-    public double[] custo = new double[n_req];
-    public int[] solucao = new int[n_req];//solução
-
-	public void setN_req(int n_req) {
-        n_req = n_req;
-    }
-
-    public int getN_req(int n_req) {
-        return n_req;
-    }
-
-    public void setN_cli(int n_cli) {
-        n_cli = n_cli;
-    }
-
-    public int getN_cli(int n_cli) {
-        return n_cli;
-    }
-
-    public void setN_release(int n_release) {
-        n_release = n_release;
-    }
-
-    public int getN_release(int n_release) {
-        return n_release;
-    }
-
-    public void setOrcamento(double orcamento) {
-        orcamento = orcamento;
-    }
-
-    public double getOrcamento(double orcamento) {
-        return orcamento;
-    }
+	double custoFinal = 0.0;
+	int penalizacao;
 	
-		//iniciando atributos com informações dadas no documernto enviado pelo professor. Criando método para inicianlizar os atributos. Iniciando cálculo de aptidão do indivíduo
-	public CalcularApt(){
-		
-		this.n_req = 10;
-		this.n_cli = 3;
-		this.orcamento = 125;
-		this.n_release = 3;
-		
-		/*
-		Inicializando a relevância do cliente
-		Cliente 1: 3
-		Cliente 2: 4
-		Cliente 3: 2
-		*/
-		this.relev_cli[] = new int[] {3, 4, 2};
-		
-		//adicionando importância do requisito. Inicializando vetor de dados
+	//criando variáveis de informações do problema
+	private int n_req = 10; //número de requisitos do problema
+	private int n_cli = 3; // número de clientes
+	private int n_release = 3 //número de releases
+	private double orcamento = 125; //definindo orçamento
+	
+	//adicionando importância do requisito. Inicializando vetor de dados
 		/*
 		
 		Efetuando Pedido {10, 10, 5}
@@ -85,17 +36,18 @@ public class aptidao{
 		Cadastro de Produtos {10, 10, 7}}
 		*/	
 		this.valor_relev = new int[][] {{10, 10, 5}, 
-		{8, 10, 6}, 
-		{6, 4, 8},
-        {5, 9, 1}, 
-		{7, 7, 5}, 
-		{8, 6, 2},
-        {6, 6, 4}, 
-		{9, 8, 3}, 
-		{6, 7, 5}, 
-		{10, 10, 7}};
+		{8, 10, 6}, {6, 4, 8}, {5, 9, 1}, {7, 7, 5}, 
+		{8, 6, 2}, {6, 6, 4}, {9, 8, 3}, 
+		{6, 7, 5}, {10, 10, 7}};	
+	/*
+	Inicializando a relevância do cliente
+		Cliente 1: 3
+		Cliente 2: 4
+		Cliente 3: 2
+	*/
+		this.relev_cli[] = new int[] {3, 4, 2};
 		
-		//inicializa o valor do risco
+	//inicializa o valor do risco
 		/*
 		Efetuando Pedido 4
 		Busca Produtos 6
@@ -125,11 +77,12 @@ public class aptidao{
 		this.custo[] = new double[] 60.0, 40.0, 40.0, 30.0, 20.0, 
 		20.0, 25.0, 70.0, 50.0, 20.0};
 		
-	}
+		public int[] importancia = new int[n_req] //importânica total dos requisitos
 	
-		//iniciando cálculo do fitness
+	//iniciando cálculo do fitness
 	public int fitness(int[] solucao) {
-		//calculando importância do cliente
+			
+		//calculando importância do requisito
 		for (i = 0; i <= n_req; i++) {
 			importancia[i] = 0;
 			for (j = 0; j <= n_cli; j++) {
@@ -138,15 +91,34 @@ public class aptidao{
 		}
 	
 	    //calculando score
-        for (i = 0; i <= n_req; i++) {
-            score = 0;
-            if (solucao[i] == 0)
-                alocado = 0;
+		for (i = 0; i <= n_req; i++) {
+		    if (solucao[i] == 0)
+			alocado = 0;
+				else
+			alocado = 1;
+		    score = score + ((importancia[i] * (n_release - solucao[i] + 1)) - (risco[i] * solucao[i]) * alocado);
+		}
+	
+		//verifica se foi alocado na release
+		for (i = 0; i < n_req; i++){
+			if (solucao[i] != 0)
+				fiq = 1;
 			else
-                alocado = 1;
-            score = score + ((importancia[i] * (n_release - solucao[i] + 1)) - (risco[i] * solucao[i]) * alocado);
-        }
-		
+				fiq = 0;
 
+			custoFianl = custoFianl + custo[i]*fiq;
+			
+	}
+		
+		if custoFinal > orcamento){
+		
+			penalizacao = (int)custoFianl - (int)orcamento;
+			
+			return score/penalizacao;
+			
+		}
+			
+		else 
+			return score;
 	
 }
