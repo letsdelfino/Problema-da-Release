@@ -1,7 +1,7 @@
 package aptidao;
 import java.util.Random
 
-public class Solucao_def{
+public class DNA{
 
 	//criando as variáveis auxiliares do problema. É possível criar isso globalmente e chamar apenas uma vez? VER ISSO MAIS TARDE
 	public i,j; //necessários no laço de repetição
