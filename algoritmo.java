@@ -58,7 +58,7 @@ public class GA{
   
   }
 
-    public void C() {
+    public void Avaliador() {
     
     	DNA novo = new SDNA();
     	int Score;
