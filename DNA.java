@@ -122,3 +122,10 @@ public class DNA{
 			return score;
 	
 }
+ 
+	//aparentemente não posso gerar isso no outro arquivo sem criar aqui
+    public DNA_funct() {
+	    
+		// nada
+	    
+	}
