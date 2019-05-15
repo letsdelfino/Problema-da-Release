@@ -6,3 +6,5 @@ O trabalho em questão diz respeito a solução do problema de implementação d
 Para a criação do código foi utilizado o Visual Code. 
 
 Não foram utilizadas bibliotecas que facilitassem a criação e execução de códigos de algoritmo genético na execução deste projeto a pedido do professor.
+
+Site auxiliar: http://www.paulocollares.com.br/programacao/algoritimo-genetico-classico-em-java-hello-world/
