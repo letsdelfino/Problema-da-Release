@@ -60,7 +60,7 @@ public class GA{
 
     public void Avaliador() {
     
-    	DNA novo = new SDNA();
+    	DNA_funct novo = new DNA_funct();
     	int Score;
     	int[] aux_temp = new int[cromossomo];
     	
