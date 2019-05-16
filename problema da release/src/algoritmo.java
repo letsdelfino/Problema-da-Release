@@ -234,7 +234,8 @@ public class algoritmo {
     	this.genesis();
     	
     	for(i = 0; i < geracao; i++) {
-      
+    		
+    		System.out.println("Geracao: " + i);
     		System.out.println("Media Score: " + this.scoreMedio());
     		System.out.println("Melhor: "  + this.Fitness[0][0]);
     		this.crossoverFunct();
